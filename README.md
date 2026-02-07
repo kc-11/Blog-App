@@ -76,3 +76,4 @@ A production-grade personal and professional blog built with Next.js 15 (App Rou
 - `POST /api/admin/upload` — Image upload (multipart)
 
 No authentication in the current version; admin is protected by obscurity. Add NextAuth (or similar) in a future phase.
+
