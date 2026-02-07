@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #fafaf9;
+  --foreground: #1c1917;
+}
+
+.dark {
+  --background: #0c0a09;
+  --foreground: #fafaf9;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+}
+
+@layer base {
+  .prose {
+    @apply font-serif text-stone-700 dark:text-stone-300;
+  }
+  .prose h1,
+  .prose h2,
+  .prose h3 {
+    @apply font-serif font-semibold text-stone-900 dark:text-stone-100;
+  }
+}
