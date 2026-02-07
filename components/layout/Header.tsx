@@ -1,11 +1,21 @@
+"use client";
+
 import Link from "next/link";
 import { ThemeToggle } from "./ThemeToggle";
 import { LogoutButton } from "./LogoutButton";
 import { MobileMenu } from "./MobileMenu";
-import { isAdmin } from "@/lib/auth";
+import { useEffect, useState } from "react";
 
-export async function Header() {
-  const showAdmin = await isAdmin();
+export function Header() {
+  const [showAdmin, setShowAdmin] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/admin/me")
+      .then((res) => res.json())
+      .then((data) => setShowAdmin(data.isAdmin))
+      .catch(() => setShowAdmin(false));
+  }, []);
+
   return (
     <header className="border-b border-stone-200 dark:border-stone-800">
       <div className="max-w-2xl mx-auto px-4 py-4 flex items-center justify-between">
