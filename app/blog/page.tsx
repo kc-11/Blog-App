@@ -39,7 +39,7 @@ export default async function BlogPage({
       ) : (
         <>
           <ul className="space-y-8">
-            {posts.map((post: { _id: { toString: () => string }; slug: string; title: string; description?: string; publishedAt?: string; readingTimeMinutes?: number; tags?: { slug: string; name: string }[] }) => (
+            {posts.map((post: any) => (
               <li key={post._id.toString()}>
                 <PostCard post={post} />
               </li>

@@ -53,7 +53,7 @@ function renderNode(node: Record<string, unknown>, key: number): React.ReactNode
     case "paragraph":
       return <p key={key} className="my-4">{children}</p>;
     case "heading": {
-      const level = (node.attrs?.level as number) ?? 1;
+      const level = ((node.attrs as any)?.level as number) ?? 1;
       const Tag = `h${Math.min(6, Math.max(1, level))}` as "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
       return <Tag key={key} className="font-serif font-semibold mt-8 mb-2">{children}</Tag>;
     }
@@ -70,7 +70,7 @@ function renderNode(node: Record<string, unknown>, key: number): React.ReactNode
     case "listItem":
       return <li key={key}>{children}</li>;
     case "codeBlock": {
-      const lang = (node.attrs?.language as string) ?? "";
+      const lang = ((node.attrs as any)?.language as string) ?? "";
       const text = content?.map((n) => (n.type === "text" ? n.text : "")).join("") ?? "";
       return (
         <pre key={key} className="overflow-x-auto rounded-lg p-4 text-sm my-4">
@@ -79,9 +79,9 @@ function renderNode(node: Record<string, unknown>, key: number): React.ReactNode
       );
     }
     case "image": {
-      const src = (node.attrs?.src as string) ?? "";
-      const alt = (node.attrs?.alt as string) ?? "";
-      const title = (node.attrs?.title as string) ?? "";
+      const src = ((node.attrs as any)?.src as string) ?? "";
+      const alt = ((node.attrs as any)?.alt as string) ?? "";
+      const title = ((node.attrs as any)?.title as string) ?? "";
       return <ImageNode key={key} src={src} alt={alt} title={title} />;
     }
     case "horizontalRule":

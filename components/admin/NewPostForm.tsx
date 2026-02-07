@@ -2,17 +2,18 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { type JSONContent } from "@tiptap/react";
 import { PostEditor } from "./PostEditor";
 import { slugify } from "@/lib/utils/slugify";
 
-const emptyContent = { type: "doc", content: [] };
+const emptyContent: JSONContent = { type: "doc", content: [] };
 
 export function NewPostForm() {
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
   const [description, setDescription] = useState("");
-  const [content, setContent] = useState(emptyContent);
+  const [content, setContent] = useState<JSONContent>(emptyContent);
   const [tagsStr, setTagsStr] = useState("");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");

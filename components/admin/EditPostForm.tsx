@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useEditor, EditorContent, type JSONContent } from "@tiptap/react";
 import { PostEditor } from "./PostEditor";
 import { useAutosave } from "@/hooks/useAutosave";
 import { slugify } from "@/lib/utils/slugify";
@@ -26,9 +27,9 @@ export function EditPostForm({ initialPost }: EditPostFormProps) {
   const [title, setTitle] = useState(initialPost.title);
   const [slug, setSlug] = useState(initialPost.slug);
   const [description, setDescription] = useState(initialPost.description ?? "");
-  const [content, setContent] = useState(
+  const [content, setContent] = useState<JSONContent>(
     typeof initialPost.content === "object" && initialPost.content !== null
-      ? (initialPost.content as { type?: string; content?: unknown[] })
+      ? (initialPost.content as JSONContent)
       : { type: "doc", content: [] }
   );
   const [tagsStr, setTagsStr] = useState(

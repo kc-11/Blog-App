@@ -80,7 +80,7 @@ export async function PATCH(
     }
 
     const data = parsed.data;
-    const oldTagIds = post.tags ? post.tags.map((t) => t.toString()) : [];
+    const oldTagIds = post.tags ? post.tags.map((t: any) => t.toString()) : [];
 
     if (data.slug !== undefined) {
       const newSlug = data.slug.trim() ? slugify(data.slug) : slugify(post.title);
@@ -117,7 +117,7 @@ export async function PATCH(
       post.tags = tagIds;
       const newTagIds = tagIds.map((x) => x.toString());
       const toInc = newTagIds.filter((x) => !oldTagIds.includes(x));
-      const toDec = oldTagIds.filter((x) => !newTagIds.includes(x));
+      const toDec = oldTagIds.filter((x: string) => !newTagIds.includes(x));
       if (toInc.length) await Tag.updateMany({ _id: { $in: toInc } }, { $inc: { postCount: 1 } });
       if (toDec.length) await Tag.updateMany({ _id: { $in: toDec } }, { $inc: { postCount: -1 } });
     }

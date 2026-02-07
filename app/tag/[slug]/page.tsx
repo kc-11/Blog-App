@@ -33,7 +33,7 @@ export default async function TagPage({ params, searchParams }: PageProps) {
   return (
     <div className="max-w-2xl mx-auto px-4 py-12">
       <h1 className="font-serif text-3xl font-semibold text-stone-900 dark:text-stone-100 mb-2">
-        Tag: {tag.name}
+        Tag: {(tag as any).name}
       </h1>
       <p className="text-stone-500 dark:text-stone-500 text-sm mb-8">
         {total} {total === 1 ? "post" : "posts"}
@@ -43,7 +43,7 @@ export default async function TagPage({ params, searchParams }: PageProps) {
       ) : (
         <>
           <ul className="space-y-8">
-            {posts.map((post: { _id: { toString: () => string }; slug: string; title: string; description?: string; publishedAt?: string; readingTimeMinutes?: number; tags?: { slug: string; name: string }[] }) => (
+            {posts.map((post: any) => (
               <li key={post._id.toString()}>
                 <PostCard post={post} />
               </li>

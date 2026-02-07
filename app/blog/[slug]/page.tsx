@@ -26,10 +26,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const post = await getPostBySlug(slug, true);
   if (!post) return { title: "Post not found" };
-  const title = post.title;
-  const description = post.description ?? post.contentPlain?.slice(0, 160) ?? "";
-  const ogImage = post.ogImage || post.coverImage || undefined;
-  const url = `${BASE_URL}/blog/${post.slug}`;
+  const title = (post as any).title;
+  const description = (post as any).description ?? (post as any).contentPlain?.slice(0, 160) ?? "";
+  const ogImage = (post as any).ogImage || (post as any).coverImage || undefined;
+  const url = `${BASE_URL}/blog/${(post as any).slug}`;
   return {
     title,
     description,
@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description,
       url,
       type: "article",
-      publishedTime: post.publishedAt ? new Date(post.publishedAt).toISOString() : undefined,
+      publishedTime: (post as any).publishedAt ? new Date((post as any).publishedAt).toISOString() : undefined,
       images: ogImage ? [{ url: ogImage, width: 1200, height: 630 }] : undefined,
     },
     twitter: { card: "summary_large_image", title, description },
@@ -51,33 +51,40 @@ export default async function BlogPostPage({ params }: PageProps) {
   const post = await getPostBySlug(slug, true);
   if (!post) notFound();
 
-  const [comments] = await Promise.all([
-    getApprovedCommentsByPostId(post._id.toString()),
+  const [rawComments] = await Promise.all([
+    getApprovedCommentsByPostId((post as any)._id.toString()),
   ]);
+
+  const comments = rawComments.map((c: any) => ({
+    _id: c._id.toString(),
+    authorName: c.authorName,
+    body: c.body,
+    createdAt: c.createdAt.toISOString(),
+  }));
 
   return (
     <article className="max-w-2xl mx-auto px-4 py-12">
       <header className="mb-10">
         <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-stone-900 dark:text-stone-100">
-          {post.title}
+          {(post as any).title}
         </h1>
         <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-stone-500 dark:text-stone-500">
-          {post.publishedAt && (
-            <time dateTime={new Date(post.publishedAt).toISOString()}>
-              {new Date(post.publishedAt).toLocaleDateString("en-US", {
+          {(post as any).publishedAt && (
+            <time dateTime={new Date((post as any).publishedAt).toISOString()}>
+              {new Date((post as any).publishedAt).toLocaleDateString("en-US", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
               })}
             </time>
           )}
-          {post.readingTimeMinutes > 0 && (
-            <span>{post.readingTimeMinutes} min read</span>
+          {(post as any).readingTimeMinutes > 0 && (
+            <span>{(post as any).readingTimeMinutes} min read</span>
           )}
-          <ViewCount slug={slug} initialCount={post.viewCount} />
-          {post.tags && post.tags.length > 0 && (
+          <ViewCount slug={slug} initialCount={(post as any).viewCount} />
+          {(post as any).tags && (post as any).tags.length > 0 && (
             <span className="flex gap-2">
-              {post.tags.map((tag: { slug: string; name: string }) => (
+              {(post as any).tags.map((tag: { slug: string; name: string }) => (
                 <Link
                   key={tag.slug}
                   href={`/tag/${tag.slug}`}
@@ -90,9 +97,9 @@ export default async function BlogPostPage({ params }: PageProps) {
           )}
         </div>
       </header>
-      <PostContent content={post.content} />
+      <PostContent content={(post as any).content} />
       <footer className="mt-12 pt-8 border-t border-stone-200 dark:border-stone-800">
-        <LikeButton slug={slug} initialCount={post.likeCount} />
+        <LikeButton slug={slug} initialCount={(post as any).likeCount} />
         <section className="mt-10" aria-label="Comments">
           <h2 className="font-serif text-xl font-semibold text-stone-900 dark:text-stone-100 mb-4">
             Comments

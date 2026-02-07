@@ -85,7 +85,7 @@ export default async function HomePage() {
           </div>
         ) : (
           <ul className="divide-y divide-stone-100 dark:divide-stone-800/80">
-            {posts.map((post) => (
+            {posts.map((post: any) => (
               <li key={post._id.toString()}>
                 <Link
                   href={`/blog/${post.slug}`}

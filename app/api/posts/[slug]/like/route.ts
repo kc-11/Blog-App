@@ -24,7 +24,7 @@ export async function POST(
     const existing = await Like.findOne({ postId: post._id, fingerprint });
     if (existing) {
       const updated = await Post.findById(post._id).select("likeCount").lean();
-      return NextResponse.json({ likeCount: updated?.likeCount ?? post.likeCount });
+      return NextResponse.json({ likeCount: (updated as any)?.likeCount ?? (post as any).likeCount });
     }
     await Like.create({ postId: post._id, fingerprint });
     const updated = await Post.findByIdAndUpdate(
@@ -32,7 +32,7 @@ export async function POST(
       { $inc: { likeCount: 1 } },
       { new: true }
     ).select("likeCount");
-    return NextResponse.json({ likeCount: updated?.likeCount ?? 0 });
+    return NextResponse.json({ likeCount: (updated as any)?.likeCount ?? 0 });
   } catch (e) {
     console.error("POST /api/posts/[slug]/like", e);
     return NextResponse.json(

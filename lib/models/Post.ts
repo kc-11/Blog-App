@@ -56,7 +56,7 @@ export async function getPublishedPosts(options: ListPostsOptions = {}) {
   const filter: Record<string, unknown> = { status: "published" };
   if (options.tag) {
     const tag = await Tag.findOne({ slug: options.tag }).select("_id").lean();
-    if (tag) filter["tags"] = tag._id;
+    if (tag) filter["tags"] = (tag as any)._id;
   }
   if (options.category) filter["category"] = options.category;
   if (options.q && options.q.trim()) {
