@@ -58,7 +58,7 @@ export function AdminPostList({ initialStatus = "" }: { initialStatus?: string }
     if (VALID_STATUS.includes(urlStatus as (typeof VALID_STATUS)[number]) && urlStatus !== statusFilter) {
       setStatusFilter(urlStatus);
     }
-  }, [searchParams]);
+  }, [searchParams, statusFilter]);
 
   const setFilter = (status: string) => {
     setStatusFilter(status);
@@ -105,35 +105,34 @@ export function AdminPostList({ initialStatus = "" }: { initialStatus?: string }
           <Link href="/admin/posts/new" className="underline ml-1">Create one</Link>.
         </p>
       ) : (
-      <ul className="border border-stone-200 dark:border-stone-800 rounded-lg overflow-hidden">
-        {posts.map((post) => (
-          <li
-            key={post._id}
-            className="flex items-center justify-between px-4 py-3 border-b border-stone-200 dark:border-stone-800 last:border-0 bg-white dark:bg-stone-900"
-          >
-            <Link
-              href={`/admin/posts/${post._id}/edit`}
-              className="font-medium text-stone-900 dark:text-stone-100 hover:underline"
+        <ul className="border border-stone-200 dark:border-stone-800 rounded-lg overflow-hidden">
+          {posts.map((post) => (
+            <li
+              key={post._id}
+              className="flex items-center justify-between px-4 py-3 border-b border-stone-200 dark:border-stone-800 last:border-0 bg-white dark:bg-stone-900"
             >
-              {post.title}
-            </Link>
-            <div className="flex items-center gap-3">
-              <span
-                className={`text-xs px-2 py-0.5 rounded ${
-                  post.status === "published"
-                    ? "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200"
-                    : "bg-stone-200 dark:bg-stone-700 text-stone-600 dark:text-stone-400"
-                }`}
+              <Link
+                href={`/admin/posts/${post._id}/edit`}
+                className="font-medium text-stone-900 dark:text-stone-100 hover:underline"
               >
-                {post.status}
-              </span>
-              <span className="text-xs text-stone-500 dark:text-stone-500">
-                {new Date(post.updatedAt).toLocaleDateString()}
-              </span>
-            </div>
-          </li>
-        ))}
-      </ul>
+                {post.title}
+              </Link>
+              <div className="flex items-center gap-3">
+                <span
+                  className={`text-xs px-2 py-0.5 rounded ${post.status === "published"
+                      ? "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200"
+                      : "bg-stone-200 dark:bg-stone-700 text-stone-600 dark:text-stone-400"
+                    }`}
+                >
+                  {post.status}
+                </span>
+                <span className="text-xs text-stone-500 dark:text-stone-500">
+                  {new Date(post.updatedAt).toLocaleDateString()}
+                </span>
+              </div>
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );

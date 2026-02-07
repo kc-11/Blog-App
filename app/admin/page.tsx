@@ -58,20 +58,19 @@ export default async function AdminDashboardPage() {
         ) : (
           <ul className="space-y-2">
             {recent.map((post) => (
-              <li key={post._id.toString()}>
+              <li key={(post as any)._id.toString()}>
                 <Link
-                  href={`/admin/posts/${post._id}/edit`}
+                  href={`/admin/posts/${(post as any)._id}/edit`}
                   className="flex items-center justify-between py-2 px-3 rounded hover:bg-stone-100 dark:hover:bg-stone-800"
                 >
                   <span className="font-medium text-stone-900 dark:text-stone-100">
                     {post.title}
                   </span>
                   <span
-                    className={`text-xs px-2 py-0.5 rounded ${
-                      post.status === "published"
+                    className={`text-xs px-2 py-0.5 rounded ${post.status === "published"
                         ? "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200"
                         : "bg-stone-200 dark:bg-stone-700 text-stone-600 dark:text-stone-400"
-                    }`}
+                      }`}
                   >
                     {post.status}
                   </span>
