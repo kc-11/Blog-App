@@ -16,13 +16,18 @@ export default async function EditPostPage({ params }: PageProps) {
   if (!post) notFound();
 
   const serialized = {
-    ...post,
     _id: (post as any)._id.toString(),
+    slug: (post as any).slug,
+    title: (post as any).title,
+    description: (post as any).description,
+    content: (post as any).content,
+    status: (post as any).status,
     publishedAt: (post as any).publishedAt?.toISOString() ?? null,
     tags: ((post as any).tags ?? []).map((t: { _id: unknown; slug: string; name: string }) => ({
       slug: t.slug,
       name: t.name,
     })),
+    category: (post as any).category,
   };
 
   return (

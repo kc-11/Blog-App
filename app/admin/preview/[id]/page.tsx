@@ -23,13 +23,13 @@ export default async function AdminPreviewPage({ params }: PageProps) {
       <header className="mb-10">
         <p className="text-sm text-amber-600 dark:text-amber-400 mb-2">Draft preview</p>
         <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-stone-900 dark:text-stone-100">
-          {post.title}
+          {(post as any).title}
         </h1>
         <div className="mt-4 text-sm text-stone-500 dark:text-stone-500">
-          {post.readingTimeMinutes > 0 && <span>{post.readingTimeMinutes} min read</span>}
+          {(post as any).readingTimeMinutes > 0 && <span>{(post as any).readingTimeMinutes} min read</span>}
         </div>
       </header>
-      <PostContent content={post.content} />
+      <PostContent content={(post as any).content} />
     </article>
   );
 }
