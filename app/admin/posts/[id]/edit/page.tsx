@@ -17,9 +17,9 @@ export default async function EditPostPage({ params }: PageProps) {
 
   const serialized = {
     ...post,
-    _id: post._id.toString(),
-    publishedAt: post.publishedAt?.toISOString() ?? null,
-    tags: (post.tags ?? []).map((t: { _id: unknown; slug: string; name: string }) => ({
+    _id: (post as any)._id.toString(),
+    publishedAt: (post as any).publishedAt?.toISOString() ?? null,
+    tags: ((post as any).tags ?? []).map((t: { _id: unknown; slug: string; name: string }) => ({
       slug: t.slug,
       name: t.name,
     })),
